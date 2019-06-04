@@ -4,17 +4,20 @@ from character import Character
 
 class HandleRequest():
     def __init__(self):
-        self.URL = "https://rickandmortyapi.com/api/character/"
+        self.base_URL = "https://rickandmortyapi.com/api/character/"
         self.character = []
     
     def getAll(self,URL):
-        return requests.get(self.URL).json()
+        return requests.get(self.base_URL).json()
 
     def getByPage(self,number):
-        return requests.get(self.URL + "?page=" + str(number)).json()
+        return requests.get(self.base_URL + "?page=" + str(number)).json()
     
     def getById(self,ID):
-        return requests.get(self.URL + str(ID)).json()
+        return requests.get(self.base_URL + str(ID)).json()
+
+    def testImage(self):
+        response = requests.get("https://rickandmortyapi.com/api/character/avatar/1.jpeg")
     
     def addCharacter(self):
         for i in range(1,26):
@@ -25,15 +28,17 @@ class HandleRequest():
                     item["url"],item["created"] )
                 self.character.append(temp)
     
-    def listByCreated(self):
+    def listByCreated(self,date):
         result = []
         for item in self.character:
-            if item.getCreated() == "2018-05-22" and item.getChar_name not in result:
+            if item.getCreated() == date and item.getChar_name() not in result:
                 result.append(item.getChar_name())
+        for name in result:
+            print(name)
 
         return result
 if __name__ == "__main__":
     test = HandleRequest()
-    test.addCharacter()
-    print(test.listByCreated())
-
+   #test.addCharacter()
+    #test.listByCreated("2017-11-30")
+    test.testImage()
