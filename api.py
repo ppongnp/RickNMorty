@@ -1,6 +1,8 @@
 import requests
 import json
 from character import Character
+from PIL import Image
+from io import BytesIO
 
 class HandleRequest():
     def __init__(self):
@@ -18,6 +20,7 @@ class HandleRequest():
 
     def testImage(self):
         response = requests.get("https://rickandmortyapi.com/api/character/avatar/1.jpeg")
+        img = Image.open(BytesIO(response.content))
     
     def addCharacter(self):
         for i in range(1,26):
@@ -30,15 +33,23 @@ class HandleRequest():
     
     def listByCreated(self,date):
         result = []
+        self.page1 = []
         for item in self.character:
             if item.getCreated() == date and item.getChar_name() not in result:
                 result.append(item.getChar_name())
-        for name in result:
+        if len(result) > 20:
+            for i in range(0,20):
+                self.page1.append(result[0])
+                result.remove(result[0])
+        for name in self.page1:
             print(name)
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        for remain in result:
+            print(remain)
 
-        return result
+
 if __name__ == "__main__":
     test = HandleRequest()
-   #test.addCharacter()
-    #test.listByCreated("2017-11-30")
-    test.testImage()
+    test.addCharacter()
+    test.listByCreated("2017-12-26")
+    
