@@ -8,7 +8,8 @@ class HandleRequest():
     def __init__(self):
         self.base_URL = "https://rickandmortyapi.com/api/character/"
         self.character = []
-    
+    def base_url(self):
+        self.base_URL = self.base_URL
     def getAll(self,URL):
         return requests.get(self.base_URL).json()
 
@@ -46,7 +47,7 @@ class HandleRequest():
         print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         for remain in result:
             print(remain)
-
+    
 
 if __name__ == "__main__":
     test = HandleRequest()
